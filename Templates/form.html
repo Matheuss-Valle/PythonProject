@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block titulo %}{{ titulo }}{% endblock %}
+
+{% block conteudo %}
+    <h2>{{ titulo }}</h2>
+    <form method="post">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" value="{{ cliente.nome if cliente else '' }}" required><br>
+        <label for="idade">Idade:</label>
+        <input type="text" id="idade" name="idade" value="{{ cliente.idade if cliente else '' }}" required><br>
+        <label for="data_cadastro">Data da Consulta:</label>
+        <input type="date" id="data_cadastro" name="data_cadastro" value="{{ cliente.data_cadastro if cliente else '' }}" required><br>
+        <button type="submit">Salvar</button>
+    </form>
+    <a href="{{ url_for('index') }}">Voltar</a>
+{% endblock %}
+

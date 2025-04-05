@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Agenda{% endblock %}
+
+{% block conteudo %}
+    <h2>Agenda de Clientes</h2>
+    <table border="1" class="calendar">
+        <thead>
+            <tr>
+                <th>Domingo</th>
+                <th>Segunda</th>
+                <th>Terça</th>
+                <th>Quarta</th>
+                <th>Quinta</th>
+                <th>Sexta</th>
+                <th>Sábado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% set dias_mes = 30 %} <!-- Defina o número de dias do mês -->
+            {% set dia_contador = 1 %}
+            {% for semana in range(1, 6) %}
+            <tr>
+                {% for dia in range(1, 8) %}
+                <td>
+                    {% if dia_contador <= dias_mes %}
+                        <strong>{{ dia_contador }}</strong>
+                        <ul>
+                            <!-- Iteração sobre os clientes -->
+                            {% for cliente in clientes %}
+                                {% if cliente.data_cadastro|date("j") == dia_contador %}
+                                <li>{{ cliente.nome }}</li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                        {% set dia_contador = dia_contador + 1 %}
+                    {% endif %}
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+<style>.calendar {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.calendar th,
+.calendar td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    vertical-align: top;
+}
+
+.calendar th {
+    background-color: #6200ea;
+    color: white;
+}
+
+.calendar td {
+    height: 100px;
+    position: relative;
+}
+
+.calendar ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.calendar li {
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+</style>
+

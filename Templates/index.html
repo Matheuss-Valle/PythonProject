@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Lista de Pacientes{% endblock %}
+
+{% block conteudo %}
+    <h2>Lista de Pacientes</h2>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Idade</th>
+            <th>Data da Consulta</th>
+            <th>Ações</th>
+        </tr>
+        {% for cliente in clientes %}
+        <tr>
+            <td>{{ cliente.id }}</td>
+            <td>{{ cliente.nome }}</td>
+            <td>{{ cliente.idade }}</td>
+            <td>{{ cliente.data_cadastro }}</td>
+            <td>
+                <a href="{{ url_for('editar', index=cliente.id) }}">Editar</a>
+                <a href="{{ url_for('excluir', index=cliente.id) }}">Excluir</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
