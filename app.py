@@ -4,7 +4,8 @@ import sqlite3
 from datetime import datetime
 
 
-# Valida a data recebida no formulário
+
+# Valida a data no formulário
 def validar_data(data_str):
     try:
         data = datetime.strptime(data_str, '%Y-%m-%d')  # Garante o formato 'YYYY-MM-DD'
@@ -43,10 +44,15 @@ def init_db():
 
 @app.route('/')
 def index():
+    return render_template('index.html', titulo="index")
+
+@app.route('/listagem.html')
+def listagem ():
     conn = get_db_connection()
     clientes = conn.execute('SELECT * FROM clientes').fetchall()
     conn.close()
-    return render_template('index.html', clientes=clientes)
+    return render_template('listagem.html', clientes=clientes)
+
 
 @app.route('/saiba_mais')
 def saiba_mais():
@@ -57,9 +63,9 @@ def saiba_mais():
 def contato():
     return render_template('contato.html', titulo="Contato")
 
-@app.route('/about')
-def about():
-    return render_template('about.html', titulo="about")
+@app.route('/agenda')
+def agenda():
+    return render_template('agenda.html', titulo="agenda")
 
 
 @app.route('/cadastrar', methods=['GET', 'POST'])

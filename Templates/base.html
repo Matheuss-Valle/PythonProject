@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block titulo %}Gerenciamento de Pacientes{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-
-    <style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+        <style>
         body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -17,7 +16,7 @@
 }
 
 header {
-    background-color: #6200ea;
+    background-color:#109010;
     color: white;
     padding: 1rem;
     text-align: center;
@@ -39,8 +38,7 @@ main {
 
 footer {
     text-align: center;
-    background-color: #6200ea;
-
+    background-color: #109010;
     padding: 10px 0;
     position: fixed;
     bottom: 0;
@@ -60,11 +58,12 @@ table th, table td {
 }
 
 table th {
-    background-color: #6200ea;
+    background-color: #109010;
     color: white;
 }
 .social-links {
     margin-top: 10px;
+
 }
 
 .social-links a {
@@ -93,13 +92,21 @@ button:hover {
 }
 .container {
     width: 80%;
-    background-color: #6200ea;
+
     margin: auto;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
 }
+
+.container {
+    background-image: url('');
+    background-size: cover;
+    background-position: center;
+    height: 100vh; /* 100% da altura da tela */
+}
+
     </style>
 </head>
 <body>
@@ -107,10 +114,12 @@ button:hover {
         <h1>Gerenciamento de Pacientes</h1>
         <nav>
             <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('agenda') }}">Agenda</a>
             <a href="{{ url_for('cadastrar') }}">Cadastrar Pacientes</a>
+            <a href="{{ url_for('listagem') }}">Listagem Pacientes</a>
             <a href="{{ url_for('saiba_mais') }}">Saiba Mais</a>
             <a href="{{ url_for('contato') }}">Contato</a>
-            <a href="{{ url_for('about') }}">About</a>
+
 
         </nav>
         <hr>
@@ -122,7 +131,7 @@ button:hover {
         {% endblock %}
     </main>
     <footer>
-        <div class="container">
+        <div>
             <p>&copy; 2023 Clínica de Saúde. Todos os direitos reservados.</p>
             <div class="social-links">
                 <a href="#"><i class="fab fa-facebook-f"></i></a>

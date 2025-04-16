@@ -3,26 +3,15 @@
 {% block titulo %}Lista de Pacientes{% endblock %}
 
 {% block conteudo %}
-    <h2>Lista de Pacientes</h2>
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Idade</th>
-            <th>Data da Consulta</th>
-            <th>Ações</th>
-        </tr>
-        {% for cliente in clientes %}
-        <tr>
-            <td>{{ cliente.id }}</td>
-            <td>{{ cliente.nome }}</td>
-            <td>{{ cliente.idade }}</td>
-            <td>{{ cliente.data_cadastro }}</td>
-            <td>
-                <a href="{{ url_for('editar', index=cliente.id) }}">Editar</a>
-                <a href="{{ url_for('excluir', index=cliente.id) }}">Excluir</a>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
+      <div class="container" style="background-image: url('/caminho-da-imagem.jpg'); background-size: cover; background-position: center; height: 100vh;">
+          <h1>Bem-vindo à Página Inicial</h1>
+          <p>Explore nossos serviços e encontre informações sobre cuidados e assistência médica.</p>
+          <ul>
+              <li>Atendimento médico: Consultas e acompanhamento por médicos especializados</li>
+              <li>Enfermagem domiciliar: Cuidados realizados por enfermeiros para monitoramento de condições de saúde, administração de medicamentos e curativos.</li>
+              <li>Fisioterapia: Reabilitação física e terapia ocupacional para recuperação de movimentos e funcionalidade.</li>
+              <li>Cuidados paliativos: Assistência a pacientes com doenças terminais, focando na qualidade de vida.</li>
+          </ul>
+          <a href="/saiba_mais" class="btn btn-primary">Saiba mais</a>
+      </div>
 {% endblock %}
