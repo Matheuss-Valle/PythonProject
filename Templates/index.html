@@ -1,17 +1,64 @@
 {% extends 'base.html' %}
 
-{% block titulo %}Lista de Pacientes{% endblock %}
+{% block titulo %}Home{% endblock %}
 
 {% block conteudo %}
-      <div class="container">
-          <h1>Bem-vindo à Página Inicial</h1>
-          <p>Explore nossos serviços e encontre informações sobre cuidados e assistência médica.</p>
-          <ul>
-              <li>Atendimento médico: Consultas e acompanhamento por médicos especializados</li>
-              <li>Enfermagem domiciliar: Cuidados realizados por enfermeiros para monitoramento de condições de saúde, administração de medicamentos e curativos.</li>
-              <li>Fisioterapia: Reabilitação física e terapia ocupacional para recuperação de movimentos e funcionalidade.</li>
-              <li>Cuidados paliativos: Assistência a pacientes com doenças terminais, focando na qualidade de vida.</li>
-          </ul>
-          <a href="/saiba_mais" class="btn btn-primary">Saiba mais</a>
-      </div>
+<style>
+    .home-container {
+        max-width: 800px;
+        margin: 40px auto;
+        background-color: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        text-align: center;
+    }
+
+    .home-container h1 {
+        color: #109010;
+        margin-bottom: 20px;
+    }
+
+    .intro-text {
+        font-size: 18px;
+        margin-bottom: 30px;
+    }
+
+    .servicos-lista {
+        list-style-type: disc;
+        text-align: left;
+        margin: 0 auto 30px;
+        max-width: 700px;
+        padding-left: 20px;
+    }
+
+    .custom-button {
+        display: inline-block;
+        background-color: #109010;
+        color: white;
+        padding: 12px 25px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+
+    .custom-button:hover {
+        background-color: #0d7d0d;
+    }
+</style>
+
+<div class="home-container">
+    <h1>Bem-vindo à Página Inicial</h1>
+    <p class="intro-text">
+        Explore nossos serviços e encontre informações sobre cuidados e assistência médica.
+    </p>
+    <ul class="servicos-lista">
+        <li>Atendimento médico: Consultas e acompanhamento por médicos especializados</li>
+        <li>Enfermagem domiciliar: Cuidados realizados por enfermeiros para monitoramento de condições de saúde, administração de medicamentos e curativos.</li>
+        <li>Fisioterapia: Reabilitação física e terapia ocupacional para recuperação de movimentos e funcionalidade.</li>
+        <li>Cuidados paliativos: Assistência a pacientes com doenças terminais, focando na qualidade de vida.</li>
+    </ul>
+    <a href="/saiba_mais" class="custom-button">Saiba mais</a>
+</div>
 {% endblock %}
