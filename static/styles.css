@@ -105,11 +105,7 @@ footer {
     font-size: 20px;
 }
 
-###
-
-
-<style>
-        body {
+body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -208,5 +204,3 @@ button:hover {
     background-position: center;
     height: 100vh; /* 100% da altura da tela */
 }
-
-    </style>

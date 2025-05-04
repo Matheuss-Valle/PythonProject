@@ -1,7 +1,8 @@
 
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 import sqlite3
-from datetime import datetime
+from datetime import datetime, date
+from calendar import monthrange
 
 
 
@@ -63,9 +64,31 @@ def saiba_mais():
 def contato():
     return render_template('contato.html', titulo="Contato")
 
+
 @app.route('/agenda')
 def agenda():
-    return render_template('agenda.html', titulo="agenda")
+    ano = request.args.get('ano', default=date.today().year, type=int)
+    mes = request.args.get('mes', default=date.today().month, type=int)
+    dias_mes = monthrange(ano, mes)[1]
+    data_atual = date(ano, mes, 1)
+
+    conn = get_db_connection()
+    clientes_raw = conn.execute('SELECT * FROM clientes').fetchall()
+    clientes = []
+    for c in clientes_raw:
+        c_dict = dict(c)
+        c_dict['data_cadastro'] = datetime.strptime(c_dict['data_cadastro'], '%Y-%m-%d')
+        clientes.append(c_dict)
+        
+    conn.close()
+    return render_template('agenda.html',
+                       titulo="agenda",
+                       data_atual=data_atual,
+                       clientes=clientes,
+                       dias_mes=dias_mes,
+                       mes=data_atual.month,
+                       ano=data_atual.year)
+
 
 
 @app.route('/cadastrar', methods=['GET', 'POST'])
@@ -78,8 +101,10 @@ def cadastrar():
         conn.execute('INSERT INTO clientes (nome, idade, data_cadastro) VALUES (?, ?, ?)', (nome, idade, data_cadastro))
         conn.commit()
         conn.close()
-        return redirect(url_for('index'))
+
+        return redirect(url_for('index') + '?sucesso=1')
     return render_template('form.html', titulo='Adicionar Pacientes')
+
 
 @app.route('/editar/<int:index>', methods=['GET', 'POST'])
 def editar(index):
@@ -89,11 +114,12 @@ def editar(index):
                      (request.form['nome'], request.form['idade'], request.form['data_cadastro'], index))
         conn.commit()
         conn.close()
-        return redirect(url_for('index'))
+        return redirect(url_for('index') + '?editado=1')
     conn = get_db_connection()
     cliente = conn.execute('SELECT * FROM clientes WHERE id = ?', (index,)).fetchone()
     conn.close()
     return render_template('form.html', titulo='Editar Cliente', cliente=cliente)
+
 
 @app.route('/excluir/<int:index>')
 def excluir(index):
@@ -101,7 +127,7 @@ def excluir(index):
     conn.execute('DELETE FROM clientes WHERE id = ?', (index,))
     conn.commit()
     conn.close()
-    return redirect(url_for('index'))
+    return redirect(url_for('index') + '?excluido=1')
 
 if __name__ == '__main__':
     init_db()

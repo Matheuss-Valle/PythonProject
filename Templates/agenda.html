@@ -3,79 +3,164 @@
 {% block titulo %}Agenda{% endblock %}
 
 {% block conteudo %}
-    <h2>Agenda de Pacientes</h2>
-    <table border="1" class="calendar">
+<style>
+    h2 {
+        text-align: center;
+    }
+    
+    .navegadores {
+        display: flex;
+        justify-content: space-between;
+        align-items:center;
+        margin: 20px auto;
+        max-width: 600px;
+        font-size: 20px;
+        gap: 40px
+    }
+    
+    .botao-anterior,
+    .botao-proximo {
+        flex: 1;
+        text-align: center;
+    }
+    
+    .conteudo_botão {
+        text-decoration: none
+    }
+    
+    .mes-ano {
+        flex: 2;
+        text-align: center;
+    }
+
+    .ano {
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        align-items: center;
+    }
+    
+    .calendar {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        text-align: center;
+    }
+    
+    .calendar th,
+    .calendar td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        vertical-align: top;
+    }
+    
+    .calendar th {
+        background-color: #6200ea;
+        color: white;
+    }
+    
+    .calendar td {
+        height: 100px;
+        position: relative;
+    }
+    
+    .calendar ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+    
+    .calendar li {
+        font-size: 0.9rem;
+        margin-top: 5px;
+    }
+</style>
+
+<h2>Agenda de Pacientes</h2>
+
+<div class="navegadores">
+
+    <!-- Botão anterior -->
+    <div class="botão_anterior">
+        <a class="conteudo_botão" href="{{ url_for('agenda', ano=ano if mes > 1 else ano - 1, mes=mes - 1 if mes > 1 else 12) }}" >⬅️ Mês</a>
+    </div>
+
+    <!-- Nome do mês e ano -->
+    <div class="mês_ano">
+        {% set meses_pt = {
+            'January': 'Janeiro',
+            'February': 'Fevereiro',
+            'March': 'Março',
+            'April': 'Abril',
+            'May': 'Maio',
+            'June': 'Junho',
+            'July': 'Julho',
+            'August': 'Agosto',
+            'September': 'Setembro',
+            'October': 'Outubro',
+            'November': 'Novembro',
+            'December': 'Dezembro'
+        } %}
+        <strong>{{ meses_pt[data_atual.strftime('%B')] }}</strong>
+        <strong> de {{ ano }}</strong>
+    </div>
+
+    <!-- Botão próximo -->
+    <div botão_proximo>
+        <a class="conteudo_botão" href="{{ url_for('agenda', ano=ano if mes < 12 else ano + 1, mes=mes + 1 if mes < 12 else 1) }}">Mês ➡️</a>
+    </div>
+</div>
+
+
+<div class="ano">
+    <!-- Botões de ano -->
+    <a href="{{ url_for('agenda', ano=ano - 1, mes=mes) }}" style="text-decoration: none">⬆️ Ano</a>
+    <a href="{{ url_for('agenda', ano=ano + 1, mes=mes) }}" style="text-decoration: none">Ano ⬇️</a>
+</div>
+
+
+{% set primeiro_dia = data_atual.replace(day=1) %}
+{% set primeiro_dia_semana = (primeiro_dia.weekday() + 1) % 7 %}
+{% set ns = namespace(dia_contador=1) %}
+{% set iniciado = False %}
+
+    <table border="1" style="margin: auto; text-align: center;">
         <thead>
             <tr>
-                <th>Domingo</th>
-                <th>Segunda</th>
-                <th>Terça</th>
-                <th>Quarta</th>
-                <th>Quinta</th>
-                <th>Sexta</th>
-                <th>Sábado</th>
+                <th>Dom</th>
+                <th>Seg</th>
+                <th>Ter</th>
+                <th>Qua</th>
+                <th>Qui</th>
+                <th>Sex</th>
+                <th>Sáb</th>
             </tr>
         </thead>
         <tbody>
-            {% set dias_mes = 30 %} <!-- Defina o número de dias do mês -->
-            {% set dia_contador = 1 %}
-            {% for semana in range(1, 6) %}
+            {% for semana in range(6) %}
             <tr>
-                {% for dia in range(1, 8) %}
-                <td>
-                    {% if dia_contador <= dias_mes %}
-                        <strong>{{ dia_contador }}</strong>
-                        <ul>
-                            <!-- Iteração sobre os clientes -->
-                            {% for cliente in clientes %}
-                                {% if cliente.data_cadastro|date("j") == dia_contador %}
-                                <li>{{ cliente.nome }}</li>
-                                {% endif %}
-                            {% endfor %}
-                        </ul>
-                        {% set dia_contador = dia_contador + 1 %}
-                    {% endif %}
-                </td>
+                {% for dia_semana in range(7) %}
+                    <td>
+                        {% if semana == 0 and dia_semana < primeiro_dia_semana %}
+                            <!-- Células vazias antes do primeiro dia do mês -->
+                        {% elif ns.dia_contador <= dias_mes %}
+                            <strong>{{ ns.dia_contador }}</strong>
+                            <ul>
+                                {% for cliente in clientes %}
+                                    {% if cliente.data_cadastro.day == dia_contador and
+                                        cliente.data_cadastro.month == mes and
+                                        cliente.data_cadastro.year == ano %}
+                                        <li>{{ cliente.nome }}</li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                            {% set ns.dia_contador = ns.dia_contador + 1 %}
+                        {% endif %}
+                    </td>
                 {% endfor %}
             </tr>
             {% endfor %}
         </tbody>
     </table>
 {% endblock %}
-
-<style>.calendar {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
-    text-align: center;
-}
-
-.calendar th,
-.calendar td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    vertical-align: top;
-}
-
-.calendar th {
-    background-color: #6200ea;
-    color: white;
-}
-
-.calendar td {
-    height: 100px;
-    position: relative;
-}
-
-.calendar ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-.calendar li {
-    font-size: 0.9rem;
-    margin-top: 5px;
-}
-</style>
-
