@@ -1,15 +1,14 @@
-{% extends 'base.html' %}
+    {% extends 'base.html' %}
 
 {% block titulo %}Saiba Mais{% endblock %}
 
 {% block conteudo %}
     <div class="container">
             <section class="form-section">
-                <h2>Sobre Nós</h2>
+                <h3>Sobre Nós</h3>
                 <p>Somos uma clínica dedicada ao cuidado dos nossos pacientes, oferecendo serviços de saúde de qualidade.</p>
                 <p>Nosso objetivo é garantir que cada paciente receba o melhor atendimento possível.</p>
             </section>
-
-            <a href="{{url_for('index') }}" class="back-link" title="Voltar para página anterior" style="text-decoration: none">⬅️ Home</a>
+        <a href="{{url_for('index') }}" class="back-link" title="Voltar para página anterior" style="text-decoration: none">⬅️ Home</a>
     </div>
 {% endblock %}
