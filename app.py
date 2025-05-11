@@ -24,8 +24,8 @@ app = Flask(__name__)
 def get_db_connection():
     conn = sqlite3.connect('database.db')
     conn.row_factory = sqlite3.Row
+     conn.execute('''ALTER TABLE clientes ADD service TEXT'''),
     return conn
-
 
 # criar a tabela se nao existir clientes
 
@@ -37,9 +37,11 @@ def init_db():
             nome TEXT NOT NULL,
             idade TEXT NOT NULL,
             data_cadastro DATE NOT NULL
-
+            
+        
         )
     ''')
+
     conn.commit()
     conn.close()
 
@@ -64,30 +66,21 @@ def saiba_mais():
 def contato():
     return render_template('contato.html', titulo="Contato")
 
-
 @app.route('/agenda')
 def agenda():
-    ano = request.args.get('ano', default=date.today().year, type=int)
-    mes = request.args.get('mes', default=date.today().month, type=int)
-    dias_mes = monthrange(ano, mes)[1]
-    data_atual = date(ano, mes, 1)
-
     conn = get_db_connection()
-    clientes_raw = conn.execute('SELECT * FROM clientes').fetchall()
-    clientes = []
-    for c in clientes_raw:
-        c_dict = dict(c)
-        c_dict['data_cadastro'] = datetime.strptime(c_dict['data_cadastro'], '%Y-%m-%d')
-        clientes.append(c_dict)
-        
+    clientes = conn.execute('SELECT nome, data_cadastro FROM clientes').fetchall()
     conn.close()
-    return render_template('agenda.html',
-                       titulo="agenda",
-                       data_atual=data_atual,
-                       clientes=clientes,
-                       dias_mes=dias_mes,
-                       mes=data_atual.month,
-                       ano=data_atual.year)
+
+    # Convertendo as informações para o formato JSON que será usado no template
+    eventos = []
+    for cliente in clientes:
+        eventos.append({
+            "title": cliente['nome'],  # Nome do cliente
+            "start": cliente['data_cadastro'],# Data de cadastro no formato YYYY-MM-DD
+
+        })
+    return render_template('agenda.html', titulo="Agenda", eventos=eventos)
 
 
 
@@ -97,29 +90,27 @@ def cadastrar():
         nome = request.form['nome']
         idade = request.form['idade']
         data_cadastro = request.form['data_cadastro']
+        servico = request.form['servico']
         conn = get_db_connection()
-        conn.execute('INSERT INTO clientes (nome, idade, data_cadastro) VALUES (?, ?, ?)', (nome, idade, data_cadastro))
+        conn.execute('INSERT INTO clientes (nome, idade, data_cadastro, servico) VALUES (?, ?, ?, ?)', (nome, idade, data_cadastro, servico))
         conn.commit()
         conn.close()
-
-        return redirect(url_for('index') + '?sucesso=1')
+        return redirect(url_for('index'))
     return render_template('form.html', titulo='Adicionar Pacientes')
-
 
 @app.route('/editar/<int:index>', methods=['GET', 'POST'])
 def editar(index):
     if request.method == 'POST':
         conn = get_db_connection()
-        conn.execute('UPDATE clientes SET nome = ?, idade = ?, data_cadastro= ? WHERE id = ?',
-                     (request.form['nome'], request.form['idade'], request.form['data_cadastro'], index))
+        conn.execute('UPDATE clientes SET nome = ?, idade = ?, data_cadastro = ?, servico = ? WHERE id = ?',
+                     (request.form['nome'], request.form['idade'], request.form['data_cadastro'], request.form['servico'], index))
         conn.commit()
         conn.close()
-        return redirect(url_for('index') + '?editado=1')
+        return redirect(url_for('index'))
     conn = get_db_connection()
     cliente = conn.execute('SELECT * FROM clientes WHERE id = ?', (index,)).fetchone()
     conn.close()
     return render_template('form.html', titulo='Editar Cliente', cliente=cliente)
-
 
 @app.route('/excluir/<int:index>')
 def excluir(index):
@@ -127,8 +118,9 @@ def excluir(index):
     conn.execute('DELETE FROM clientes WHERE id = ?', (index,))
     conn.commit()
     conn.close()
-    return redirect(url_for('index') + '?excluido=1')
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     init_db()
     app.run(debug=True)
+
