@@ -3,14 +3,14 @@
 {% block titulo %}Lista de Pacientes{% endblock %}
 
 {% block conteudo %}
-
-    <h2>Lista de Pacientes</h2>
+    <h3>Lista de Pacientes</h3>
     <table border="1">
         <tr>
             <th>ID</th>
             <th>Nome</th>
             <th>Idade</th>
             <th>Data da Consulta</th>
+            <th>Serviço</th>
             <th>Editar</th>
             <th>Excluir</th>
         </tr>
@@ -20,13 +20,13 @@
             <td>{{ cliente.nome }}</td>
             <td>{{ cliente.idade }}</td>
             <td>{{ cliente.data_cadastro }}</td>
+            <td>{{ cliente.servico }}</td>
             <td>
                 <a href="{{ url_for('editar', index=cliente.id) }}" title="Editar" style="text-decoration: none; font-size: 20px;">✏️</a>
             </td>
             <td>
                 <a href="{{ url_for('excluir', index=cliente.id) }}" title="Excluir" style="text-decoration: none; font-size: 20px; margin-left: 10px;" onclick="return confirm('Tem certeza que deseja excluir este agendamento?');">🗑️</a>
             </td>
-            
         </tr>
         {% endfor %}
     </table>
