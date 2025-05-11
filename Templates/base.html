@@ -6,130 +6,122 @@
     <title>{% block titulo %}Gerenciamento de Pacientes{% endblock %}</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
-    <style>
+        <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-            color: #333;
-            height: 100%;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        html{
-            height: 100%;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-        }
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+}
 
-        header {
-            background-color:#109010;
-            color: white;
-            padding: 1rem;
-            text-align: center;
-        }
+header {
+    background-color:#109010;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+}
 
-        header nav a {
-            color: white;
-            text-decoration: none;
-            margin: 0 15px;
-        }
+header nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+}
 
-        header nav a:hover {
-            text-decoration: underline;
-        }
+header nav a:hover {
+    text-decoration: underline;
+}
 
-        main {
-            padding: 20px;
-            flex: 1;
-        }
+main {
+    padding: 20px;
+}
 
-        footer {
-            text-align: center;
-            background-color: #109010;
-            padding: 10px 0;
-            width: 100%;
-        }
+footer {
+    text-align: center;
+    background-color: #109010;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
 
-        table th, table td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: center;
-        }
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
 
-        table th {
-            background-color: #109010;
-            color: white;
-        }
-        .social-links {
-            margin-top: 10px;
+table th {
+    background-color: #109010;
+    color: white;
+}
+.social-links {
+    margin-top: 10px;
 
-        }
+}
 
-        .social-links a {
-            color: white;
-            margin: 0 10px;
-            font-size: 20px;
-            }
+.social-links a {
+    color: white;
+    margin: 0 10px;
+    font-size: 20px;
+}
+    input[type="text"], input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
 
-        input[type="text"], 
-        input[type="number"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
+button {
+    background: #28a745;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
 
-        button {
-            background: #28a745;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
+button:hover {
+    background: #218838;
+}
+.container {
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    max-width: 1000px;
+        margin: 0px auto;
+        background-color: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        text-align: center;
+}
+    form {
+    max-width: 600px;
+        margin: auto;
+        padding: 30px;
+        background-color: #f9f9f9;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        font-family: Arial, sans-serif;
+    text-align: center;
+    }
 
-        button:hover {
-            background: #218838;
-        }
-        .container {
-            width: 80%;
+    h3 {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #109010
+    }
 
-            margin: auto;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-
-        .toast {
-            position: fixed;
-            top: -100px;
-            left: 13%;
-            transform: translateX(-50%);
-            background-color: #28a745;
-            color: white;
-            font-weight: bold;
-            padding: 15px 15px;
-            border-radius: 8px;
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
-            transition: top 0.5s ease;
-            z-index: 9999;
-        }
-
-        .toast.show {
-            top: 20px;
-        }
     </style>
 </head>
 <body>
@@ -152,43 +144,6 @@
         {% block conteudo %}
         <!-- O conteúdo específico da página será inserido aqui -->
         {% endblock %}
-
-    <!-- TOAST HTML -->
-    <div id="toast" class="toast">
-        <span id="toast-message"></span>
-    </div>
-
-    <script>
-        function mostrarToast(mensagem) {
-          const toast = document.getElementById("toast");
-          const toastMessage = document.getElementById("toast-message");
-      
-          toastMessage.innerText = mensagem;
-          toast.classList.add("show");
-      
-          setTimeout(() => {
-            toast.classList.remove("show");
-          }, 3500);
-        }
-
-        // FIz pra Checar a URL por parâmetro
-        window.onload = function () {
-            const params = new URLSearchParams(window.location.search);
-
-            if (params.get("sucesso") === "1") {
-                mostrarToast("✅ Cliente agendado com sucesso!");
-            }
-
-            if (params.get("editado") === "1") {
-                mostrarToast("✏️ Edição concluída com sucesso!");
-            }
-
-            if (params.get("excluido") === "1") {
-                mostrarToast("❌ Cliente excluído com sucesso!");
-            }
-        };
-      </script>
-      
     </main>
     <footer>
         <div>
