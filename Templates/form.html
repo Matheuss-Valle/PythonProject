@@ -1,91 +1,26 @@
 {% extends 'base.html' %}
 {% block titulo %}{{ titulo }}{% endblock %}
-
 {% block conteudo %}
-<style>
-    .form-container {
-        max-width: 600px;
-        margin: 60px auto;
-        padding: 30px;
-        background-color: #f9f9f9;
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        font-family: Arial, sans-serif;
-    }
-
-    .form-container h2 {
-        text-align: center;
-        margin-bottom: 30px;
-        color: #333;
-    }
-
-    .form-container label {
-        display: block;
-        margin-bottom: 6px;
-        font-weight: bold;
-        color: #444;
-    }
-
-    .form-container input[type="text"],
-    .form-container input[type="date"] {
-        width: 95%;          /* ocupa só 80% da largura do contêiner */
-        margin: 0 auto 20px; /* margem automática horizontal, 20px embaixo */
-        display: block;      /* garante que margin auto funcione */
-        padding: 10px;
-        margin-bottom: 20px;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        font-size: 16px;
-    }
-
-    .form-container button {
-        width: 100%;
-        padding: 12px;
-        background-color: #28a745;
-        color: white;
-        font-size: 16px;
-        font-weight: bold;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-
-    .form-container button:hover {
-        background-color: #218838;
-    }
-
-    .form-container .back-link {
-        display: block;
-        text-align: center;
-        margin-top: 20px;
-        color: #007bff;
-        text-decoration: none;
-        font-size: 15px;
-        font-weight: bold;
-        text-decoration: none;
-    }
-
-    .form-container .back-link:hover {
-        text-decoration: underline;
-    }
-</style>
-
-<div class="form-container">
-    <h2>{{ titulo }}</h2>
+    <h3>Cadastrar Paciente</h3>
     <form method="post">
         <label for="nome">Nome:</label>
-        <input type="text" id="nome" name="nome" value="{{ cliente.nome if cliente else '' }}" required>
-
+        <input type="text" id="nome" name="nome" value="{{ cliente.nome if cliente else '' }}" required><br>
         <label for="idade">Idade:</label>
-        <input type="text" id="idade" name="idade" value="{{ cliente.idade if cliente else '' }}" required>
-
-        <label for="data_cadastro">Data da Consulta:</label>
-        <input type="date" id="data_cadastro" name="data_cadastro" value="{{ cliente.data_cadastro if cliente else '' }}" required>
-
-        <button type="submit">Salvar</button>
+        <input type="text" id="idade" name="idade" value="{{ cliente.idade if cliente else '' }}" required><br>
+        <label for="data_cadastro">Data do agendamento:</label>
+        <input type="date" id="data_cadastro" name="data_cadastro" value="{{ cliente.data_cadastro if cliente else '' }}" required><br><br>
+        <form action for="servico">Serviço:
+            <select type="text" id="servico" name="servico" multiple>
+                <option value="Atendimento médico">Atendimento médico</option>
+                <option value="Enfermagem domiciliar">Enfermagem domiciliar</option>
+                <option value="Fisioterapia">Fisioterapia</option>
+                <option value="Cuidados paliativos">Cuidados paliativos</option>
+            </select>
+            <br><br>
+            <button type="submit">Salvar</button>
+        </form>
+        <br><br>
+        <a href="{{ request.referrer or url_for('index') }}" class="back-link" title="Voltar para página anterior" style="text-decoration: none">⬅️ Voltar</a>
     </form>
-
-    <a href="{{ request.referrer or url_for('index') }}" class="back-link" title="Voltar para página anterior" style="text-decoration: none">⬅️ Voltar</a>
-</div>
 {% endblock %}
+
