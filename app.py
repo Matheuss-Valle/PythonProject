@@ -24,7 +24,7 @@ app = Flask(__name__)
 def get_db_connection():
     conn = sqlite3.connect('database.db')
     conn.row_factory = sqlite3.Row
-     conn.execute('''ALTER TABLE clientes ADD service TEXT'''),
+    #conn.execute('''ALTER TABLE clientes ADD service TEXT'''), ''''''''comentei porque já inseri esse campo no banco'''''''
     return conn
 
 # criar a tabela se nao existir clientes
@@ -37,8 +37,6 @@ def init_db():
             nome TEXT NOT NULL,
             idade TEXT NOT NULL,
             data_cadastro DATE NOT NULL
-            
-        
         )
     ''')
 
@@ -95,7 +93,7 @@ def cadastrar():
         conn.execute('INSERT INTO clientes (nome, idade, data_cadastro, servico) VALUES (?, ?, ?, ?)', (nome, idade, data_cadastro, servico))
         conn.commit()
         conn.close()
-        return redirect(url_for('index'))
+        return redirect(url_for('index') + '?sucesso=1')
     return render_template('form.html', titulo='Adicionar Pacientes')
 
 @app.route('/editar/<int:index>', methods=['GET', 'POST'])
@@ -106,7 +104,7 @@ def editar(index):
                      (request.form['nome'], request.form['idade'], request.form['data_cadastro'], request.form['servico'], index))
         conn.commit()
         conn.close()
-        return redirect(url_for('index'))
+        return redirect(url_for('index') + '?editado=1')
     conn = get_db_connection()
     cliente = conn.execute('SELECT * FROM clientes WHERE id = ?', (index,)).fetchone()
     conn.close()
@@ -118,7 +116,7 @@ def excluir(index):
     conn.execute('DELETE FROM clientes WHERE id = ?', (index,))
     conn.commit()
     conn.close()
-    return redirect(url_for('index'))
+    return redirect(url_for('index') + '?excluido=1')
 
 if __name__ == '__main__':
     init_db()

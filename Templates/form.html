@@ -1,26 +1,120 @@
 {% extends 'base.html' %}
 {% block titulo %}{{ titulo }}{% endblock %}
 {% block conteudo %}
-    <h3>Cadastrar Paciente</h3>
+<style>
+    body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #f4f6f9;
+        margin: 0;
+        padding: 0;
+    }
+
+    h2, h3 {
+        text-align: center;
+        color: #2b7a2b;
+        font-weight: 700;
+        margin-top: 30px;
+    }
+
+    form {
+        max-width: 500px;
+        margin: 30px auto;
+        padding: 30px 35px;
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #333;
+        font-size: 15px;
+        text-align: left;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 16px;
+        color: #4a4a4a;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    select {
+        width: 100%;
+        padding: 12px 14px;
+        margin: 0 0 20px 0; /* só margem embaixo para espaçamento */
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 15px;
+        background-color: #fafafa;
+        transition: border-color 0.3s ease, box-shadow 0.2s ease;
+        box-sizing: border-box; /* Importante para largura total considerar padding e borda */
+        display: block; /* Garante que o select e inputs sejam block-level para alinhamento */
+    }
+
+
+    input[type="text"]:focus,
+    input[type="date"]:focus,
+    select:focus {
+        border-color: #2b7a2b;
+        box-shadow: 0 0 0 2px rgba(43, 122, 43, 0.2);
+        outline: none;
+    }
+
+    button {
+        width: 100%;
+        padding: 14px;
+        background-color: #2b7a2b;
+        color: #fff;
+        font-size: 16px;
+        font-weight: 600;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #256b25;
+    }
+
+    .back-link {
+        display: block;
+        margin-top: 20px;
+        text-align: center;
+        color: #2b7a2b;
+        font-size: 14px;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    .back-link:hover {
+        text-decoration: underline;
+    }
+</style>
+
+    <h2>{{ titulo }}</h2>
     <form method="post">
         <label for="nome">Nome:</label>
-        <input type="text" id="nome" name="nome" value="{{ cliente.nome if cliente else '' }}" required><br>
-        <label for="idade">Idade:</label>
-        <input type="text" id="idade" name="idade" value="{{ cliente.idade if cliente else '' }}" required><br>
-        <label for="data_cadastro">Data do agendamento:</label>
-        <input type="date" id="data_cadastro" name="data_cadastro" value="{{ cliente.data_cadastro if cliente else '' }}" required><br><br>
-        <form action for="servico">Serviço:
-            <select type="text" id="servico" name="servico" multiple>
-                <option value="Atendimento médico">Atendimento médico</option>
-                <option value="Enfermagem domiciliar">Enfermagem domiciliar</option>
-                <option value="Fisioterapia">Fisioterapia</option>
-                <option value="Cuidados paliativos">Cuidados paliativos</option>
-            </select>
-            <br><br>
-            <button type="submit">Salvar</button>
-        </form>
-        <br><br>
-        <a href="{{ request.referrer or url_for('index') }}" class="back-link" title="Voltar para página anterior" style="text-decoration: none">⬅️ Voltar</a>
-    </form>
-{% endblock %}
+        <input type="text" id="nome" name="nome" value="{{ cliente.nome if cliente else '' }}" required>
 
+        <label for="idade">Idade:</label>
+        <input type="text" id="idade" name="idade" value="{{ cliente.idade if cliente else '' }}" required>
+
+        <label for="data_cadastro">Data do agendamento:</label>
+        <input type="date" id="data_cadastro" name="data_cadastro" value="{{ cliente.data_cadastro if cliente else '' }}" required>
+
+        <label for="servico">Serviço:</label>
+        <select id="servico" name="servico" required>
+            <option value="Atendimento médico">Atendimento médico</option>
+            <option value="Enfermagem domiciliar">Enfermagem domiciliar</option>
+            <option value="Fisioterapia">Fisioterapia</option>
+            <option value="Cuidados paliativos">Cuidados paliativos</option>
+        </select>
+        
+
+        <button type="submit">Salvar</button>
+        
+
+        <a href="{{ request.referrer or url_for('index') }}" class="back-link" title="Voltar para página anterior" style="text-decoration: none">⬅️ Voltar</a>
+{% endblock %}
