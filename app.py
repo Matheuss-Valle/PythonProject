@@ -18,7 +18,6 @@ def validar_data(data_str):
 app = Flask(__name__)
 
 
-
 # função para conectar o banco de dados
 
 def get_db_connection():
